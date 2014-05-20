@@ -62,7 +62,11 @@
 
 - (instancetype)colorWithBrightness:(CGFloat)brightness;
 - (instancetype)colorBlendedWithColor:(UIColor *)color factor:(CGFloat)factor;
-
+- (instancetype)inverse;
+- (instancetype)darkerColor;
+- (instancetype)lighterColor;
+- (instancetype)darkerColorBy:(CGFloat) percent;
+- (instancetype)lighterColorBy:(CGFloat) percent;
 @end
 
 

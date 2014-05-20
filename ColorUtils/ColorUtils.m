@@ -352,4 +352,67 @@
                                 alpha:fromRGBA[3] + (toRGBA[3] - fromRGBA[3]) * factor];
 }
 
+- (instancetype)inverse
+{
+    CGFloat rgba[4];
+    [self getRGBAComponents:rgba];
+	return [[self class] colorWithRed:(1.0f-rgba[0]) green:(1.0f-rgba[1]) blue:(1.0f-rgba[2]) alpha:(rgba[3])];
+}
+
+- (instancetype)lighterColor
+{
+    return [self lighterColorBy:.25f];
+}
+
+
+- (instancetype)lighterColorBy:(CGFloat) percent
+{
+    CGFloat h, s, b, a, p;
+    if(percent<1) {
+        p = 1 + percent;
+    } else {
+        p = percent;
+    }
+    
+    if ([self getHue:&h saturation:&s brightness:&b alpha:&a]) {
+        return [UIColor colorWithHue:h
+                          saturation:s
+                          brightness:MIN(b * p, 1.0)
+                               alpha:a];
+    } else if([self getWhite:&h alpha:&a]) {
+        return [UIColor colorWithWhite:h*p alpha:a];
+    }
+    return nil;
+}
+
+- (instancetype)darkerColor
+{
+    return [self darkerColorBy:.25f];
+}
+
+- (instancetype)darkerColorBy:(CGFloat) percent
+{
+    CGFloat h, s, b, a, p;
+    
+    if(percent<1) {
+        p = 1 - percent;
+    } else {
+        p = 0;
+    }
+    
+    if ([self getHue:&h saturation:&s brightness:&b alpha:&a]) {
+        return [UIColor colorWithHue:h
+                          saturation:s
+                          brightness:b * p
+                               alpha:a];
+    } else if([self getWhite:&h alpha:&a]) {
+        return [UIColor colorWithWhite:h*p alpha:a];
+    }
+    
+    return nil;
+}
+
+
+
+
 @end
